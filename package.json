@@ -1,0 +1,17 @@
+{
+  "name": "reactive-playground",
+  "version": "0.0.0",
+  "dependencies": {
+    "rx": "latest"
+  },
+  "devDependencies": {
+    "exports-loader": "^0.6.2",
+    "express": "latest",
+    "imports-loader": "^0.6.3",
+    "jQuery": "^1.7.4",
+    "jquery": "^2.1.4",
+    "lodash": "^3.7.0",
+    "socket.io": "latest",
+    "webpack": "latest"
+  }
+}

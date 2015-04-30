@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.createjs.com/easeljs-0.8.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Demo Time!</h1>
+    <button id="button-to-click">Click Me!</button>
+
+    <canvas id="board" width="350" height="350"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/2.5.2/rx.all.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+
+    <script>
+      var socket = io('http://localhost:4444');
+
+      var button = document.getElementById('button-to-click');
+      var buttonClicks = Rx.Observable.fromEvent(button, 'click');
+      var buttonMouseouts = Rx.Observable.fromEvent(button, 'mouseleave');
+
+      var eventsILike = buttonClicks.merge(buttonMouseouts).map(function(e){
+        return e.type;
+      });
+
+      var clickSubscribe = eventsILike.subscribe(function(type){
+        socket.emit('my other event', {"test":type});
+      });
+
+
+    </script>
+  </body>
+</head>
