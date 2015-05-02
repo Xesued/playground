@@ -1,8 +1,11 @@
 /// <reference path="../../typings/lodah/lodash.d.ts" />
 /// <reference path="../../typings/easeljs/easeljs.d.ts" />
 
+
+
 var _ = require('lodash');
-var createjs = require('exports?createjs!../lib/easel') ;
+
+var createjs = require('exports?createjs!../lib/easel');
 var rx = require('rx');
 
 require('../lib/tween');
@@ -33,10 +36,6 @@ function Board(elem, options) {
 
 
   createjs.Ticker.addEventListener("tick", this.stage);
-  // var self = this;
-  // function handleTick(event) {
-  //   self.stage.update();
-  // };
 }
 
 Board.prototype.build = function () {
@@ -56,8 +55,8 @@ Board.prototype.handleClick = function (gridPoint){
 
 function mouseEventToGrid(mouseEvent) {
   var gridPoint = {};
-  gridPoint.x = parseInt(mouseEvent.stageX / 25);
-  gridPoint.y = parseInt(mouseEvent.stageY / 25);
+  gridPoint.x = mouseEvent.stageX / 25;
+  gridPoint.y = mouseEvent.stageY / 25;
   return gridPoint;
 }
 
