@@ -1,3 +1,5 @@
+/// <reference path="typings/node/node.d.ts"/>
+
 module.exports = {
     entry: "./client/entry.js",
     output: {

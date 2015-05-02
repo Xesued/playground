@@ -1,9 +1,13 @@
+/// <reference path="../typings/node/node.d.ts"/>
+/// <reference path="../typings/express/express.d.ts" />
+
 
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var Rx = require('rx');
+
 
 server.listen(4444);
 
