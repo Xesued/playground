@@ -1,15 +1,10 @@
 /// <reference path="../../typings/lodah/lodash.d.ts" />
 /// <reference path="../../typings/easeljs/easeljs.d.ts" />
 
-
-
 var _ = require('lodash');
-
-var createjs = require('exports?createjs!../lib/easel');
+var createjs = require('exports?createjs!../lib/easel')
 var rx = require('rx');
-
 require('../lib/tween');
-
 
 
 function Board(elem, options) {
@@ -27,13 +22,12 @@ function Board(elem, options) {
     function add(h) {
       self.stage.addEventListener('click', h)
     }
-  );
+  ).throttleFirst(2000);
 
   this.gridClicks = this.clicks.map(mouseEventToGrid);
   this.gridClicks.subscribe(function(gridPoint) {
     self.handleClick(gridPoint);
   });
-
 
   createjs.Ticker.addEventListener("tick", this.stage);
 }
@@ -46,24 +40,41 @@ Board.prototype.build = function () {
 
 Board.prototype.handleClick = function (gridPoint){
   var bang = new createjs.Shape();
-  bang.graphics.setStrokeStyle(2).beginStroke('#246').drawCircle(gridPoint.x * 25 + 12, gridPoint.y * 25 + 12, 1);
+  bang.graphics.setStrokeStyle(2).beginStroke('#246').drawCircle(0,0, 1);
+  bang.x = gridPoint.x * 25 + 12.5;
+  bang.y = gridPoint.y * 25 + 12.5;
+  
   this.stage.addChild(bang);
+  
+  createjs.Tween.get(bang).to({scaleX: 5, scaleY: 5}, 1000);
+};
 
-  createjs.Tween.get(bang)
-    .to({radius: 333}, 1000);
+Board.prototype.setFiredMissles = function (stream) {
+  var self = this;
+  stream.subscribe(function (gridPoint) {
+    console.log('Ive been shot at!');
+    var bang = new createjs.Shape();
+    bang.graphics.setStrokeStyle(2).beginStroke('#f00').drawCircle(0,0, 1);
+    bang.x = gridPoint.x * 25 + 12.5;
+    bang.y = gridPoint.y * 25 + 12.5;
+    
+    self.stage.addChild(bang);
+    
+    createjs.Tween.get(bang).to({scaleX: 5, scaleY: 5}, 1000);
+  });
 };
 
 function mouseEventToGrid(mouseEvent) {
   var gridPoint = {};
-  gridPoint.x = mouseEvent.stageX / 25;
-  gridPoint.y = mouseEvent.stageY / 25;
+  gridPoint.x = Math.floor(mouseEvent.stageX / 25);
+  gridPoint.y = Math.floor(mouseEvent.stageY / 25);
   return gridPoint;
 }
 
 
 function drawBoard(canvasStage) {
   var backgroundRect = new createjs.Shape();
-  backgroundRect.graphics.beginFill('#efa').drawRect(0,0, 350, 350);
+  backgroundRect.graphics.beginFill('#eee').drawRect(0,0, 350, 350);
   canvasStage.addChild(backgroundRect);
 }
 
@@ -79,7 +90,7 @@ function drawGrid(canvasStage) {
 function drawGridLines(canvasStage, lineNumber) {
   var graphics = new createjs.Graphics();
   var startX = lineNumber * 25;
-  graphics.beginStroke('red').moveTo(startX, 0).lineTo(startX, 350);
+  graphics.beginStroke('777').moveTo(startX, 0).lineTo(startX, 350);
   var myLine = new createjs.Shape(graphics);
 
   canvasStage.addChild(myLine);
