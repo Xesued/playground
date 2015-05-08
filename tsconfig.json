@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "sourceMap": true,
+        "version": true
+    },
+    "filesGlob": [
+        "./client/**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./client/board/board.ts",
+        "./client/entry.ts",
+        "./client/missleLauncher.ts"
+    ],
+    "version": "1.5"
+}

@@ -1,37 +1,50 @@
 /// <reference path="../../typings/lodah/lodash.d.ts" />
 /// <reference path="../../typings/easeljs/easeljs.d.ts" />
 /// <reference path="../../typings/rx/rx.all.d.ts" />
-var Board = (function () {
-    function Board(stage, options) {
-        this.options = _.defaults({
-            width: 500,
-            height: 500
-        }, options);
-        var self = this;
-        this.stage = stage;
-        this.clicks = Rx.Observable.fromEventPattern(function add(h) {
-            self.stage.addEventListener('click', h);
-        }, undefined, undefined);
+
+export class Board {
+    options: {};
+    stage: createjs.Stage; // createjs.stage;
+    clicks: Rx.Observable<any>; // rx.Obs
+
+    constructor(stage:createjs.Stage, options:{}){
+      this.options = _.defaults({
+        width: 500,
+        height: 500
+      }, options);
+
+      let self = this;
+      this.stage = stage;
+      this.clicks = Rx.Observable.fromEventPattern( function add(h:any) {
+         self.stage.addEventListener('click', h);
+      }, undefined, undefined);
     }
-    Board.prototype.build = function () {
+
+    build () {
         this.drawBoard();
         this.drawGrid();
-    };
-    Board.prototype.drawBoard = function () {
-        var backgroundRect = new createjs.Shape();
-        backgroundRect.graphics.beginFill('#eee').drawRect(0, 0, 350, 350);
+    }
+
+    private drawBoard() {
+        let backgroundRect = new createjs.Shape();
+        backgroundRect.graphics.beginFill('#eee').drawRect(0,0, 350, 350);
         this.stage.addChild(backgroundRect);
-    };
-    Board.prototype.drawGrid = function () {
-        var GRID_SIZE = 15, currentGrid = 0;
-        for (currentGrid = 0; currentGrid < GRID_SIZE; currentGrid++) {
+    }
+
+    private drawGrid() {
+        var GRID_SIZE = 15,
+        currentGrid = 0;
+
+        for(currentGrid = 0; currentGrid < GRID_SIZE; currentGrid++ ){
             this.drawGridLines(currentGrid);
         }
-    };
-    Board.prototype.drawGridLines = function (currentGrid) {
-    };
-    return Board;
-})();
+    }
+
+    private drawGridLines(currentGrid:number) {
+
+    }
+}
+
 // function Board(stage, options) {
 //   var defaults = {
 //       width: 500,
@@ -119,4 +132,3 @@ var Board = (function () {
 // }
 //
 // module.exports = Board;
-//# sourceMappingURL=board.js.map
